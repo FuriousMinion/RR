@@ -69,30 +69,31 @@ class ParticleCommand extends PluginBase {
       case "par":
         if($sender->isOp()) {
           if(!(isset($args[0]))) {
-            $sender->sendMessage("§dUsage: §f/par <particle name> §7OR §f/par pack < particle pack name>");
+            $sender->sendMessage("§dUsage: §f/par set <player> <particle name> §7OR §f/par reset <player>");
           }
           switch($args[0]) {
             case "set":
-              if(!(isset($args[1]))) {
-                $sender->sendMessage($this->plugin->prefix . "§cYou must specify a player");
-              } else {
-                $target = $this->plugin->getServer()->getPlayer($args[1]);
-                if($target !== null) {
-                  $name = strtolower($target->getName());
-                  if(!(isset($args[2]))) {
-                    $sender->sendMessage($this->plugin->prefix . "§cYou must specify a particle");
-                  } else {
-                    if(in_array($args[2], $this->particles_list)) {
-                      $config->set($name, $args[2]);
-                      $config->save();
-                    } else {
-                      $sender->sendMessage($this->plugin->prefix . "§cThis particle doesn't exist");
-                    }
-                  }
+            if(!(isset($args[1]))) {
+              $sender->sendMessage($this->plugin->prefix . "§cYou must specify a player");
+            } else {
+              $target = $this->plugin->getServer()->getPlayer($args[1]);
+              if($target !== null) {
+                $name = strtolower($target->getName());
+                if(!(isset($args[2]))) {
+                  $sender->sendMessage($this->plugin->prefix . "§cYou must specify a particle");
                 } else {
-                  $sender->sendMessage($this->plugin->prefix . "§cThis player is offline");
+                  if(in_array($args[2], $this->particles_list)) {
+                    $config->set($name, $args[2]);
+                    $config->save();
+                    $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
+                  } else {
+                    $sender->sendMessage($this->plugin->prefix . "§cThis particle doesn't exist");
+                  }
                 }
+              } else {
+                $sender->sendMessage($this->plugin->prefix . "§cThis player is offline");
               }
+            }
             break;
             
             case "reset":
@@ -104,17 +105,19 @@ class ParticleCommand extends PluginBase {
                   
                   $this->removeParticles($target);
                   
-                  $sender->sendMessage($this->plugin->prefix . "§aSuccessfully reset particles for §2" . $name . "§a!");
+                  $name = $target->getName();
+                  $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully reset particles for §2" . $name . "§a!");
                 } else {
                   $sender->sendMessage($this->plugin->prefix . "§cThis player is offline");
                 }
+              }
             break;
-          }
-        }
+            }
         break;
       } else {
         $sender->sendMessage("§c§lX§r§c You do not have permission for this command");
       }
+    break;
     }
   }
   
