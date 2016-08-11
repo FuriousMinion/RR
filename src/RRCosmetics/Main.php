@@ -26,7 +26,7 @@ class Main extends PluginBase {
   
   public function regCommands() {
     $this->getCommand("par")->setExecutor(new ParticleCommand($this), $this);
-    $this->getCommand("costume")->setExecutor(new CostumeCommand($this), $this);
-    $this->getCommand("gadget")->setExecutor(new GadgetCommand($this), $this);
+    //$this->getCommand("costume")->setExecutor(new CostumeCommand($this), $this);
+    //$this->getCommand("gadget")->setExecutor(new GadgetCommand($this), $this);
   }
 }
