@@ -8,6 +8,8 @@ use pocketmine\plugin\Plugin;
 use pocketmine\Server;
 use pocketmine\Player;
 
+use pocketmine\utils\Config;
+
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\CommandExecutor;
