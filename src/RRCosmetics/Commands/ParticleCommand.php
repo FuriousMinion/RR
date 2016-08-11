@@ -71,19 +71,19 @@ class ParticleCommand extends PluginBase {
           if(!(isset($args[0]))) {
             $sender->sendMessage("§dUsage: §f/par <particle name> §7OR §f/par pack < particle pack name>");
           }
-          switch($args[1]) {
+          switch($args[0]) {
             case "set":
-              if(!(isset($args[2]))) {
+              if(!(isset($args[1]))) {
                 $sender->sendMessage($this->plugin->prefix . "§cYou must specify a player");
               } else {
-                $target = $this->plugin->getServer()->getPlayer($args[2]);
+                $target = $this->plugin->getServer()->getPlayer($args[1]);
                 if($target !== null) {
                   $name = strtolower($target->getName());
-                  if(!(isset($args[3]))) {
+                  if(!(isset($args[2]))) {
                     $sender->sendMessage($this->plugin->prefix . "§cYou must specify a particle");
                   } else {
-                    if(in_array($args[3], $this->particles_list)) {
-                      $config->set($name, $args[3]);
+                    if(in_array($args[2], $this->particles_list)) {
+                      $config->set($name, $args[2]);
                       $config->save();
                     } else {
                       $sender->sendMessage($this->plugin->prefix . "§cThis particle doesn't exist");
@@ -96,10 +96,10 @@ class ParticleCommand extends PluginBase {
             break;
             
             case "reset":
-              if(!(isset($args[2]))) {
+              if(!(isset($args[1]))) {
                 $sender->sendMessage($this->plugin->prefix . "§cYou must specify a player");
               } else {
-                $target = $this->plugin->getServer()->getPlayer($args[2]);
+                $target = $this->plugin->getServer()->getPlayer($args[1]);
                 if($target !== null) {
                   
                   $this->removeParticles($target);
