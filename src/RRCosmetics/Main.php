@@ -7,6 +7,8 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\Player;
 
+use pocketmine\utils\Config;
+
 use RRCosmetics\Commands\ParticleCommand;
 use RRCosmetics\Commands\CostumeCommand;
 use RRCosmetics\Commands\GadgetCommand;
