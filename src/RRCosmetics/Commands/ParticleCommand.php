@@ -105,13 +105,14 @@ class ParticleCommand extends PluginBase {
                   $sender->sendMessage($this->plugin->prefix . "§aSuccessfully reset particles for §2" . $name . "§a!");
                 } else {
                   $sender->sendMessage($this->plugin->prefix . "§cThis player is offline");
-              }
+                }
             break;
           }
         }
-      break;
-    } else {
-      $sender->sendMessage("§c§lX§r§c You do not have permission for this command");
+        break;
+      } else {
+        $sender->sendMessage("§c§lX§r§c You do not have permission for this command");
+      }
     }
   }
   
