@@ -155,31 +155,31 @@ class ParticleTask extends PluginTask {
           $level->addParticle(new destroyblock($pos, Block::get($config->get("block"))));
         break;
         case "wings":
-          $map = [];
-          $handle = $this->plugin->getResource("wings.map");
-          $lines = explode("\n", rtrim(stream_get_contents($handle)));
+          $map = [];
+          $handle = $this->plugin->getResource("wings.map");
+          $lines = explode("\n", rtrim(stream_get_contents($handle)));
           fclose($handle);
-              
-          $height = count($lines);
-          foreach($lines as $lineNumber => $line){
-            $len = strlen($line);
-            for($i = 0; $i < $len; ++$i){
-              if($line{$i} === "X"){
-                $map[] = new Vector2($i, $height - $lineNumber - 1);
+          
+          $height = count($lines);
+          foreach($lines as $lineNumber => $line) {
+            $len = strlen($line);
+            for($i = 0; $i < $len; ++$i) {
+              if($line{$i} === "X") {
+                $map[] = new Vector2($i, $height - $lineNumber - 1);
               }
             }
           }
-              
-          $scale = 0.2;
-          $particle = new flame(new Vector3);
-          $yaw = $player->yaw / 180 * M_PI;
-          $xFactor = -sin($yaw) * $scale;
-          $zFactor = cos($yaw) * $scale;
-          foreach($map as $vector){
-            $particle->y = $vector->y;
-            $particle->x = $xFactor * $vector->x;
-            $particle->z = $zFactor * $vector->x;
-            $level()->addParticle($particle);
+          
+          $scale = 0.2;
+          $particle = new flame(new Vector3);
+          $yaw = $player->yaw / 180 * M_PI;
+          $xFactor = -sin($yaw) * $scale;
+          $zFactor = cos($yaw) * $scale;
+          foreach($map as $vector) {
+            $particle->y = $vector->y;
+            $particle->x = $xFactor * $vector->x;
+            $particle->z = $zFactor * $vector->x;
+            $level->addParticle($particle);
           }
         break;
       }
