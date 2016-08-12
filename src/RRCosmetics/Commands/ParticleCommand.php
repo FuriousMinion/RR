@@ -35,7 +35,6 @@ class ParticleCommand extends PluginBase {
       "flame",
       "heart",
       "ink",
-      "item",
       "itembreak",
       "lavadrip",
       "lava",
@@ -51,10 +50,9 @@ class ParticleCommand extends PluginBase {
       "enchanttable",
       "happyvillager",
       "angryvillager",
-      "rainsplash",
-      "snowball",
-      "slime",
-      "block",
+      "rainsplash".
+      "snowball".
+      "slime".
       "destroyblock"
     );
   
@@ -91,30 +89,30 @@ class ParticleCommand extends PluginBase {
                     $config->set($name, $args[2]);
                     $config->save();
                     $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
-                    switch($args[2]) {
-                      case "item":
-                      case "itembreak":
-                        if(!isset($args[3])) {
-                          $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
-                        } else {
-                          $config->set("item", $args[3]);
-                          $config->save();
-                          $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
-                        }
-                      break;
-                      case "block":
-                      case "destroyblock":
-                        if(!isset($args[3])) {
-                          $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
-                        } else {
-                          $config->set("block", $args[3]);
-                          $config->save();
-                          $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
-                        }
-                      break;
-                    }
                   } else {
                     $sender->sendMessage($this->plugin->prefix . "§r§cThis particle doesn't exist");
+                  }
+                  switch($args[2]) {
+                    case "item":
+                    case "itembreak":
+                      if(!isset($args[3])) {
+                        $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
+                      } else {
+                        $config->set("item", $args[3]);
+                        $config->save();
+                        $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
+                      }
+                    break;
+                    case "block":
+                    case "blockbreak":
+                      if(!isset($args[3])) {
+                        $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
+                      } else {
+                        $config->set("block", $args[3]);
+                        $config->save();
+                        $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
+                      }
+                    break;
                   }
                 }
               } else {
