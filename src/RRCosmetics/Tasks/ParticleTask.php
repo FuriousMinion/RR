@@ -63,8 +63,8 @@ class ParticleTask extends PluginTask {
     $pos = new Vector3($this->player->getX(), $this->player->getY(), $this->player->getZ());
     $level = $this->plugin->getServer()->getLevelByName("Hub");
     switch($config->get($name)) {
-      case "bubble":
-        $level->addParticle(new bubble($pos));
+      case "flame":
+        $level->addParticle(new flame($pos));
       break;
     }
   }
