@@ -1,8 +1,8 @@
 <?php
 
-namespace RRCosmetics\Commands;
+namespace RRCosmetics\Tasks;
 
-use pocketmine\plugin\PluginBase;
+use pocketmine\scheduler\PluginTask;
 use pocketmine\plugin\Plugin;
 
 use pocketmine\Server;
@@ -10,149 +10,179 @@ use pocketmine\Player;
 
 use pocketmine\utils\Config;
 
-use pocketmine\command\Command;
-use pocketmine\command\CommandSender;
-use pocketmine\command\CommandExecutor;
+use pocketmine\math\Vector3;
+
+use pocketmine\level\Level;
+use pocketmine\level\Position;
+
+use pocketmine\level\particle\BubbleParticle as bubble;
+use pocketmine\level\particle\CriticalParticle as critical;
+use pocketmine\level\particle\DustParticle as dust;
+use pocketmine\level\particle\EnchantParticle as enchant;
+use pocketmine\level\particle\EnchantmentTableParticle as enchanttable;
+use pocketmine\level\particle\EntityFlameParticle as entflame;
+use pocketmine\level\particle\ExplodeParticle as explode;
+use pocketmine\level\particle\FlameParticle as flame;
+use pocketmine\level\particle\HappyVillagerParticle as happyvillager;
+use pocketmine\level\particle\HeartParticle as heart;
+use pocketmine\level\particle\HugeExplodeParticle as hugeexplode;
+use pocketmine\level\particle\InstantEnchantParticle as inenchant;
+use pocketmine\level\particle\InkParticle as ink;
+use pocketmine\level\particle\ItemBreakParticle as itembreak;
+use pocketmine\level\particle\LargeExplodeParticle as largeexplode;
+use pocketmine\level\particle\LavaDripParticle as lavadrip;
+use pocketmine\level\particle\LavaParticle as lava;
+use pocketmine\level\particle\PortalParticle as portal;
+use pocketmine\level\particle\RainSplashParticle as rainsplash;
+use pocketmine\level\particle\RedstoneParticle as redstone;
+use pocketmine\level\particle\SmokeParticle as smoke;
+use pocketmine\level\particle\SplashParticle as splash;
+use pocketmine\level\particle\SporeParticle as spore;
+use pocketmine\level\particle\WaterDripParticle as waterdrip;
+use pocketmine\level\particle\AngryVillagerParticle as angryvillager;
+use pocketmine\level\particle\WaterParticle as water;
+use pocketmine\level\particle\DestroyBlockParticle as destroyblock;
+use pocketmine\level\particle\Particle;
+
+use pocketmine\item\Item;
+use pocketmine\block\Block;
 
 use RRCosmetics\Main;
 
-class ParticleCommand extends PluginBase {
-  
-  public $particles_list = array(
-      "bubble",
-      "crit",
-      "dust",
-      "enchant",
-      "inenchant",
-      "explode",
-      "largeexplode",
-      "hugeexplode",
-      "entflame",
-      "flame",
-      "heart",
-      "ink",
-      "item",
-      "lavadrip",
-      "lava",
-      "portal",
-      "redstone",
-      "smoke",
-      "splash",
-      "spore",
-      "waterdrip",
-      "water",
-      "enchtable",
-      "happyvillager",
-      "angryvillager",
-      "rainsplash",
-      "snowball",
-      "slime",
-      "block"
-    );
-  
+class ParticleTask extends PluginTask {
+
   private $plugin;
-    
+  
   public function __construct(Main $plugin) {
     $this->plugin = $plugin;
-  }
-    
-  public function getPlugin() {
-    return $this->plugin;
-  }
-  
-  public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
-    switch($cmd->getName()) {
-      case "par":
-        if($sender->isOp()) {
-          if(!(isset($args[0]))) {
-            $sender->sendMessage("§l§dUsage: §r§f/par set §7<player> <particle name> §8[data] §l§b| §r§f/par reset §7<player> §l§b| §r§f/par list");
-          }
-          switch($args[0]) {
-          
-            case "list":
-              //TO DO
-            break;
-            
-            case "set":
-            if(!(isset($args[1]))) {
-              $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify a player");
-            } else {
-              $target = $this->plugin->getServer()->getPlayer($args[1]);
-              if($target !== null) {
-                $name = strtolower($target->getName());
-                if(!(isset($args[2]))) {
-                  $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify a particle");
-                } else {
-                  $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
-                  if(in_array($args[2], $this->particles_list)) {
-                    $config->set($name, $args[2]);
-                    $config->set("block", null);
-                    $config->set("item", null);
-                    $config->save();
-                    $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
-                  } else {
-                    $sender->sendMessage($this->plugin->prefix . "§r§cThis particle doesn't exist");
-                  }
-                  switch($args[2]) {
-                    case "item":
-                      if(!isset($args[3])) {
-                        $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
-                      } else {
-                        $config->set("item", $args[3]);
-                        $config->save();
-                      }
-                    break;
-                    case "block":
-                      if(!isset($args[3])) {
-                        $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
-                      } else {
-                        $config->set("block", $args[3]);
-                        $config->save();
-                      }
-                    break;
-                  }
-                }
-              } else {
-                $sender->sendMessage($this->plugin->prefix . "§r§cThis player is offline");
-              }
-            }
-            break;
-            
-            case "reset":
-              if(!(isset($args[1]))) {
-                $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify a player");
-              } else {
-                $target = $this->plugin->getServer()->getPlayer($args[1]);
-                if($target !== null) {
-                  
-                  $this->removeParticles($target);
-                  
-                  $name = strtolower($target->getName());
-                  $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully reset particles for §2" . $name . "§a!");
-                } else {
-                  $sender->sendMessage($this->plugin->prefix . "§r§cThis player is offline");
-                }
-              }
-            break;
-            
-            case "wings":
-              $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
-              $config->set($name, "wings");
-              $config->save();
-            break;
-            }
+		 parent::__construct($plugin);
+	}
+	
+  public function onRun($tick) {
+    $players = $this->plugin->getServer()->getOnlinePlayers();
+    foreach($players as $player) {
+      $name = strtolower($player->getName());
+      $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
+      $pos = new Vector3($player->getX(), $player->getY() + 0.5, $player->getZ());
+      $level = $this->plugin->getServer()->getLevelByName("Hub");
+      switch($config->get($name)) {
+        case "bubble":
+          $level->addParticle(new bubble($pos));
         break;
-      } else {
-        $sender->sendMessage("§4§lX§r§c You do not have permission for this command");
+        case "crit":
+          $level->addParticle(new critical($pos));
+        break;
+        case "enchant":
+          $level->addParticle(new enchant($pos));
+        break;
+        case "dust":
+          $level->addParticle(new dust($pos));
+        break;
+        case "inenchant":
+          $level->addParticle(new inenchant($pos));
+        break;
+        case "explode":
+          $level->addParticle(new explode($pos));
+        break;
+        case "largeexplode":
+          $level->addParticle(new largeexplode($pos));
+        break;
+        case "hugeexplode":
+          $level->addParticle(new hugeexplode($pos));
+        break;
+        case "entflame":
+          $level->addParticle(new entflame($pos));
+        break;
+        case "flame":
+          $level->addParticle(new flame($pos));
+        break;
+        case "heart":
+          $level->addParticle(new heart($pos));
+        break;
+        case "ink":
+          $level->addParticle(new ink($pos));
+        break;
+        case "lavadrip":
+          $level->addParticle(new lavadrip($pos));
+        break;
+        case "lava":
+          $level->addParticle(new lava($pos));
+        break;
+        case "portal":
+          $level->addParticle(new portal($pos));
+        break;
+        case "portal":
+          $level->addParticle(new portal($pos));
+        break;
+        case "redstone":
+          $level->addParticle(new redstone($pos));
+        break;
+        case "splash":
+          $level->addParticle(new splash($pos));
+        break;
+        case "spore":
+          $level->addParticle(new spore($pos));
+        break;
+        case "waterdrip":
+          $level->addParticle(new waterdrip($pos));
+        break;
+        case "water":
+          $level->addParticle(new water($pos));
+        break;
+        case "enchtable":
+        case "enchanttable":
+          $level->addParticle(new enchanttable($pos));
+        break;
+        case "happyvillager":
+          $level->addParticle(new happyvillager($pos));
+        break;
+        case "angryvillager":
+          $level->addParticle(new angryvillager($pos));
+        break;
+        case "rainsplash":
+          $level->addParticle(new rainsplash($pos));
+        break;
+        case "snowball":
+          $level->addParticle(new itembreak($pos, Item::get(Item::SNOWBALL)));
+        break;
+        case "slime":
+          $level->addParticle(new itembreak($pos, Item::get(Item::SLIMEBALL)));
+        break;
+        case "item":
+          $level->addParticle(new itembreak($pos, Item::get($config->get("item"))));
+        break;
+        case "block":
+          $level->addParticle(new destroyblock($pos, Block::get($config->get("block"))));
+        break;
+        case "wings":
+          $map = [];
+          $handle = $this->plugin->getResource("wings.map");
+          $lines = explode("\n", rtrim(stream_get_contents($handle)));
+          fclose($handle);
+              
+          $height = count($lines);
+          foreach($lines as $lineNumber => $line){
+            $len = strlen($line);
+            for($i = 0; $i < $len; ++$i){
+              if($line{$i} === "X"){
+                $map[] = new Vector2($i, $height - $lineNumber - 1);
+              }
+            }
+          }
+              
+          $scale = 0.2;
+          $particle = new flame(new Vector3);
+          $yaw = $player->yaw / 180 * M_PI;
+          $xFactor = -sin($yaw) * $scale;
+          $zFactor = cos($yaw) * $scale;
+          foreach($map as $vector){
+            $particle->y = $vector->y;
+            $particle->x = $xFactor * $vector->x;
+            $particle->z = $zFactor * $vector->x;
+            $level()->addParticle($particle);
+          }
+        break;
       }
-    break;
     }
-  }
-  
-  public function removeParticles(Player $player) {
-    $name = strtolower($player->getName());
-    $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
-    $config->set($name, null);
-    $config->save();
   }
 }
