@@ -35,6 +35,6 @@ class Main extends PluginBase {
   }
   
   public function regTasks() {
-    $this->getServer()->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), 2);
+    $this->getServer()->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), 5);
   }
 }
