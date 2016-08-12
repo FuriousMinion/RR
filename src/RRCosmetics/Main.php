@@ -25,7 +25,7 @@ class Main extends PluginBase {
     $this->regTasks();
     if(!(is_dir($this->getDataFolder()))) {
       @mkdir($this->getDataFolder());
-      $this->saveDefaultConfig();
+      @mkdir($this->getDataFolder() . "particles");
     }
     $this->getLogger()->info("RRCosmetics Enabled");
   }
@@ -35,6 +35,6 @@ class Main extends PluginBase {
   }
   
   public function regTasks() {
-    $this->getServer()->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), 1);
+    $this->getServer()->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), 2);
   }
 }
