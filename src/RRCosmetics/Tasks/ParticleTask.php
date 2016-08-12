@@ -45,6 +45,9 @@ use pocketmine\level\particle\WaterParticle as water;
 use pocketmine\level\particle\DestroyBlockParticle as destroyblock;
 use pocketmine\level\particle\Particle;
 
+use pocketmine\item\Item;
+use pocketmine\block\Block;
+
 use RRCosmetics\Main;
 
 class ParticleTask extends PluginTask {
@@ -57,10 +60,10 @@ class ParticleTask extends PluginTask {
 	}
 	
   public function onRun($tick) {
-    $config = new Config($this->plugin->getDataFolder() . "particles.json", Config::JSON);
     $players = $this->plugin->getServer()->getOnlinePlayers();
     foreach($players as $player) {
       $name = strtolower($player->getName());
+      $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
       $pos = new Vector3($player->getX(), $player->getY() + 0.5, $player->getZ());
       $level = $this->plugin->getServer()->getLevelByName("Hub");
       switch($config->get($name)) {
@@ -126,7 +129,7 @@ class ParticleTask extends PluginTask {
           $level->addParticle(new spore($pos));
         break;
         case "terrain":
-          $level->addParticle(new terrain($pos));
+          $level->addParticle(new terrain($pos, Block::get(round(rand(0, 114)))));
         break;
         case "waterdrip":
           $level->addParticle(new waterdrip($pos));
@@ -147,14 +150,18 @@ class ParticleTask extends PluginTask {
         case "rainsplash":
           $level->addParticle(new rainsplash($pos));
         break;
-        /*TO DO
+        case "snowball":
+          $level->addParticle(new itembreak($pos, Item::get(Item::SNOWBALL)));
+        break;
+        case "slime":
+          $level->addParticle(new itembreak($pos, Item::get(Item::SLIMEBALL)));
+        break;
         case "itembreak":
-          $level->addParticle(new itembreak($pos));
+          $level->addParticle(new itembreak($pos, Item::get($config->get("item"))));
         break;
         case "destroyblock":
-          $level->addParticle(new destroyblock($pos));
+          $level->addParticle(new destroyblock($pos, Block::get($config->get("block"))));
         break;
-        */
       }
     }
   }
