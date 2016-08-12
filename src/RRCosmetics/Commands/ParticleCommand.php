@@ -23,6 +23,7 @@ class ParticleCommand extends PluginBase {
       "crit",
       "critical",
       "dust",
+      "ench",
       "enchant",
       "inenchant",
       "instantenchant",
@@ -34,6 +35,7 @@ class ParticleCommand extends PluginBase {
       "flame",
       "heart",
       "ink",
+      "item",
       "itembreak",
       "lavadrip",
       "lava",
@@ -50,6 +52,9 @@ class ParticleCommand extends PluginBase {
       "happyvillager",
       "angryvillager",
       "rainsplash",
+      "snowball",
+      "slime",
+      "block",
       "destroyblock"
     );
   
@@ -64,7 +69,6 @@ class ParticleCommand extends PluginBase {
   }
   
   public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
-    $config = new Config($this->plugin->getDataFolder() . "particles.json", Config::JSON);
     switch($cmd->getName()) {
       case "par":
         if($sender->isOp()) {
@@ -83,9 +87,32 @@ class ParticleCommand extends PluginBase {
                   $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify a particle");
                 } else {
                   if(in_array($args[2], $this->particles_list)) {
+                    $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
                     $config->set($name, $args[2]);
                     $config->save();
                     $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
+                    switch($args[2]) {
+                      case "item":
+                      case "itembreak":
+                        if(!isset($args[3])) {
+                          $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
+                        } else {
+                          $config->set("item", $args[3]);
+                          $config->save();
+                          $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
+                        }
+                      break;
+                      case "block":
+                      case "destroyblock":
+                        if(!isset($args[3])) {
+                          $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
+                        } else {
+                          $config->set("block", $args[3]);
+                          $config->save();
+                          $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
+                        }
+                      break;
+                    }
                   } else {
                     $sender->sendMessage($this->plugin->prefix . "§r§cThis particle doesn't exist");
                   }
@@ -122,8 +149,8 @@ class ParticleCommand extends PluginBase {
   }
   
   public function removeParticles(Player $player) {
-    $config = new Config($this->plugin->getDataFolder() . "particles.json", Config::JSON);
     $name = strtolower($player->getName());
+    $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
     $config->set($name, null);
     $config->save();
   }
