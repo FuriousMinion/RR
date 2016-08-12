@@ -84,8 +84,8 @@ class ParticleCommand extends PluginBase {
                 if(!(isset($args[2]))) {
                   $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify a particle");
                 } else {
+                  $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
                   if(in_array($args[2], $this->particles_list)) {
-                    $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
                     $config->set($name, $args[2]);
                     $config->save();
                     $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
