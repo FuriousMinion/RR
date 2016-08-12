@@ -8,6 +8,8 @@ use pocketmine\plugin\Plugin;
 use pocketmine\Server;
 use pocketmine\Player;
 
+use pocketmine\utils\Config;
+
 use pocketmine\math\Vector3;
 
 use pocketmine\level\Level;
@@ -59,7 +61,7 @@ class ParticleTask extends PluginTask {
     $players = $this->plugin->getServer()->getOnlinePlayers();
     foreach($players as $player) {
       $name = strtolower($player->getName());
-      $pos = new Vector3($player->getX(), $player->getY(), $player->getZ());
+      $pos = new Vector3($player->getX(), $player->getY() + 0.5, $player->getZ());
       $level = $this->plugin->getServer()->getLevelByName("Hub");
       switch($config->get($name)) {
         case "flame":
