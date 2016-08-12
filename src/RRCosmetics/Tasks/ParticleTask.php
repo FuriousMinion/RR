@@ -46,26 +46,26 @@ use pocketmine\level\particle\Particle;
 use RRCosmetics\Main;
 
 class ParticleTask extends PluginTask {
-     
-  public $player;
-  
+
   private $plugin;
   
-  public function __construct(Main $plugin, Player $player) {
-    $this->player = $player;
+  public function __construct(Main $plugin) {
     $this->plugin = $plugin;
 		 parent::__construct($plugin);
 	}
 	
   public function onRun($tick) {
     $config = new Config($this->plugin->getDataFolder() . "particles.json", Config::JSON);
-    $name = strtolower($this->player->getName());
-    $pos = new Vector3($this->player->getX(), $this->player->getY(), $this->player->getZ());
-    $level = $this->plugin->getServer()->getLevelByName("Hub");
-    switch($config->get($name)) {
-      case "flame":
-        $level->addParticle(new flame($pos));
-      break;
+    $players = $this->plugin->getServer()->getOnlinePlayers();
+    foreach($players as $player) {
+      $name = strtolower($player->getName());
+      $pos = new Vector3($player->getX(), $player->getY(), $player->getZ());
+      $level = $this->plugin->getServer()->getLevelByName("Hub");
+      switch($config->get($name)) {
+        case "flame":
+          $level->addParticle(new flame($pos));
+        break;
+      }
     }
   }
 }
