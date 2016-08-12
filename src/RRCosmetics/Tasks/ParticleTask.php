@@ -166,8 +166,8 @@ class ParticleTask extends PluginTask {
             for($i = 0; $i < $len; ++$i) {
               if($line{$i} === "X") {
                 $map[] = new Vector2($i, $height - $lineNumber - 1);
-              }
-            }
+              }
+            }
           }
           
           $scale = 0.2;
