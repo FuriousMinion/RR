@@ -65,9 +65,14 @@ class ParticleCommand extends PluginBase {
       case "par":
         if($sender->isOp()) {
           if(!(isset($args[0]))) {
-            $sender->sendMessage("§dUsage: §f/par set <player> <particle name> §7OR §f/par reset <player>");
+            $sender->sendMessage("§l§dUsage: §r§f/par set §7<player> <particle name> §8[data] §l§b| §r§f/par reset §7<player> §l§b| §r§f/par list");
           }
           switch($args[0]) {
+          
+            case "list":
+              //TO DO
+            break;
+            
             case "set":
             if(!(isset($args[1]))) {
               $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify a player");
@@ -129,10 +134,16 @@ class ParticleCommand extends PluginBase {
                 }
               }
             break;
+            
+            case "wings":
+              $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
+              $config->set($name, "wings");
+              $config->save();
+            break;
             }
         break;
       } else {
-        $sender->sendMessage("§c§lX§r§c You do not have permission for this command");
+        $sender->sendMessage("§4§lX§r§c You do not have permission for this command");
       }
     break;
     }
