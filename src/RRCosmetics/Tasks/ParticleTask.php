@@ -11,7 +11,6 @@ use pocketmine\Player;
 use pocketmine\utils\Config;
 
 use pocketmine\math\Vector3;
-use pocketmine\math\Vector2;
 
 use pocketmine\level\Level;
 use pocketmine\level\Position;
@@ -157,7 +156,7 @@ class ParticleTask extends PluginTask {
         break;
         case "wings":
           $map = [];
-          $handle = $this->plugin->getResource("wings.map");
+          $handle = fopen($this->plugin->getDataFolde() . "wings.map");
           $lines = explode("\n", rtrim(stream_get_contents($handle)));
           fclose($handle);
           
