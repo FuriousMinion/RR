@@ -48,7 +48,7 @@ class ParticleCommand extends PluginBase {
       "snowball",
       "slime",
       "block",
-      "wimgs"
+      "wings"
     );
   
   private $plugin;
