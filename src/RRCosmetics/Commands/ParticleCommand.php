@@ -135,14 +135,6 @@ class ParticleCommand extends PluginBase {
                 }
               }
             break;
-            
-            case "wings":
-              $target = $this->plugin->getServer()->getPlayer($args[1]);
-              $name = $target->getName();
-              $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
-              $config->set($name, "wings");
-              $config->save();
-            break;
             }
         break;
       } else {
