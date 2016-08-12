@@ -27,7 +27,15 @@ class Main extends PluginBase {
       @mkdir($this->getDataFolder());
       @mkdir($this->getDataFolder() . "particles");
     }
-    $this->getLogger()->info("RRCosmetics Enabled");
+    $this->getLogger()->info("§a
+       _____                                      _
+      / ____|                                _   (_)
+     | |       ___    ____  _ ___ ___  ____ | |_  _   ___  ____
+     | |     /  _  \ | ___|| '_  '_  \/ __ \| __|| | / __|| ___|
+     | |____|  (_)  |\___ \| | | | | || ___/| |_ | || (__ \___ \
+      \______\ ___ / |____/|_| |_| |_|\____|\___||_| \___||____/
+      
+    ");
   }
   
   public function regCommands() {
