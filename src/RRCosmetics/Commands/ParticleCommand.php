@@ -81,6 +81,8 @@ class ParticleCommand extends PluginBase {
                   $config = new Config($this->plugin->getDataFolder() . "particles/$name.json", Config::JSON);
                   if(in_array($args[2], $this->particles_list)) {
                     $config->set($name, $args[2]);
+                    $config->set("block", null);
+                    $config->set("item", null);
                     $config->save();
                     $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
                   } else {
@@ -93,7 +95,6 @@ class ParticleCommand extends PluginBase {
                       } else {
                         $config->set("item", $args[3]);
                         $config->save();
-                        $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
                       }
                     break;
                     case "block":
@@ -102,7 +103,6 @@ class ParticleCommand extends PluginBase {
                       } else {
                         $config->set("block", $args[3]);
                         $config->save();
-                        $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
                       }
                     break;
                   }
