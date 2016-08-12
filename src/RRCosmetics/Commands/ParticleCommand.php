@@ -50,9 +50,9 @@ class ParticleCommand extends PluginBase {
       "enchanttable",
       "happyvillager",
       "angryvillager",
-      "rainsplash".
-      "snowball".
-      "slime".
+      "rainsplash",
+      "snowball",
+      "slime",
       "block",
       "destroyblock"
     );
@@ -96,8 +96,6 @@ class ParticleCommand extends PluginBase {
                   switch($args[2]) {
                     case "item":
                     case "itembreak":
-                      $config->set($name, $args[2]);
-                      $config->save();
                       if(!isset($args[3])) {
                         $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
                       } else {
@@ -108,8 +106,6 @@ class ParticleCommand extends PluginBase {
                     break;
                     case "block":
                     case "destroyblock":
-                      $config->set($name, $args[2]);
-                      $config->save();
                       if(!isset($args[3])) {
                         $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
                       } else {
