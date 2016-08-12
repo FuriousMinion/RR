@@ -13,6 +13,8 @@ use RRCosmetics\Commands\ParticleCommand;
 use RRCosmetics\Commands\CostumeCommand;
 use RRCosmetics\Commands\GadgetCommand;
 
+use RRCosmetics\Tasks\ParticleTask;
+
 class Main extends PluginBase {
 
   public $prefix = "§8[ §l§b-§4Rede§cRealm§b- §8] ";
@@ -28,7 +30,11 @@ class Main extends PluginBase {
   
   public function regCommands() {
     $this->getCommand("par")->setExecutor(new ParticleCommand($this), $this);
-    //$this->getCommand("costume")->setExecutor(new CostumeCommand($this), $this);
-    //$this->getCommand("gadget")->setExecutor(new GadgetCommand($this), $this);
+    $this->getCommand("costume")->setExecutor(new CostumeCommand($this), $this);
+    $this->getCommand("gadget")->setExecutor(new GadgetCommand($this), $this);
+  }
+  
+  public function regTasks() {
+    $this->getServer()->getPluginManager()->scheduleRepeatingTask(new ParticleTask($this), 10);
   }
 }
