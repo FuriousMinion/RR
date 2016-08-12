@@ -127,9 +127,6 @@ class ParticleTask extends PluginTask {
         case "spore":
           $level->addParticle(new spore($pos));
         break;
-        case "terrain":
-          $level->addParticle(new terrain($pos, Block::get(round(rand(0, 114)))));
-        break;
         case "waterdrip":
           $level->addParticle(new waterdrip($pos));
         break;
@@ -155,9 +152,11 @@ class ParticleTask extends PluginTask {
         case "slime":
           $level->addParticle(new itembreak($pos, Item::get(Item::SLIMEBALL)));
         break;
+        case "item":
         case "itembreak":
           $level->addParticle(new itembreak($pos, Item::get($config->get("item"))));
         break;
+        case "block":
         case "destroyblock":
           $level->addParticle(new destroyblock($pos, Block::get($config->get("block"))));
         break;
