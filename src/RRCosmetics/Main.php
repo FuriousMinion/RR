@@ -21,6 +21,7 @@ class Main extends PluginBase {
   
   public function onEnable() {
     $this->regCommands();
+    $this->regTasks();
     if(!(is_dir($this->getDataFolder()))) {
       @mkdir($this->getDataFolder());
       $this->saveDefaultConfig();
