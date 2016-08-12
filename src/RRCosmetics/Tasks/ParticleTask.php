@@ -156,9 +156,11 @@ class ParticleTask extends PluginTask {
         case "slime":
           $level->addParticle(new itembreak($pos, Item::get(Item::SLIMEBALL)));
         break;
+        case "item":
         case "itembreak":
           $level->addParticle(new itembreak($pos, Item::get($config->get("item"))));
         break;
+        case "block":
         case "destroyblock":
           $level->addParticle(new destroyblock($pos, Block::get($config->get("block"))));
         break;
