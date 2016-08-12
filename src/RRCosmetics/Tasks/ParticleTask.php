@@ -70,10 +70,8 @@ class ParticleTask extends PluginTask {
           $level->addParticle(new bubble($pos));
         break;
         case "crit":
-        case "critical":
           $level->addParticle(new critical($pos));
         break;
-        case "ench":
         case "enchant":
           $level->addParticle(new enchant($pos));
         break;
@@ -81,7 +79,6 @@ class ParticleTask extends PluginTask {
           $level->addParticle(new dust($pos));
         break;
         case "inenchant":
-        case "instantenchant":
           $level->addParticle(new inenchant($pos));
         break;
         case "explode":
@@ -94,7 +91,6 @@ class ParticleTask extends PluginTask {
           $level->addParticle(new hugeexplode($pos));
         break;
         case "entflame":
-        case "entityflame":
           $level->addParticle(new entflame($pos));
         break;
         case "flame":
@@ -153,11 +149,9 @@ class ParticleTask extends PluginTask {
           $level->addParticle(new itembreak($pos, Item::get(Item::SLIMEBALL)));
         break;
         case "item":
-        case "itembreak":
           $level->addParticle(new itembreak($pos, Item::get($config->get("item"))));
         break;
         case "block":
-        case "destroyblock":
           $level->addParticle(new destroyblock($pos, Block::get($config->get("block"))));
         break;
       }
