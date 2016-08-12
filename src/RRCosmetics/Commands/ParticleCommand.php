@@ -74,41 +74,41 @@ class ParticleCommand extends PluginBase {
           switch($args[0]) {
             case "set":
             if(!(isset($args[1]))) {
-              $sender->sendMessage($this->plugin->prefix . "§cYou must specify a player");
+              $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify a player");
             } else {
               $target = $this->plugin->getServer()->getPlayer($args[1]);
               if($target !== null) {
                 $name = strtolower($target->getName());
                 if(!(isset($args[2]))) {
-                  $sender->sendMessage($this->plugin->prefix . "§cYou must specify a particle");
+                  $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify a particle");
                 } else {
                   if(in_array($args[2], $this->particles_list)) {
                     $config->set($name, $args[2]);
                     $config->save();
                     $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully set particles for §2" . $name . "§a!");
                   } else {
-                    $sender->sendMessage($this->plugin->prefix . "§cThis particle doesn't exist");
+                    $sender->sendMessage($this->plugin->prefix . "§r§cThis particle doesn't exist");
                   }
                 }
               } else {
-                $sender->sendMessage($this->plugin->prefix . "§cThis player is offline");
+                $sender->sendMessage($this->plugin->prefix . "§r§cThis player is offline");
               }
             }
             break;
             
             case "reset":
               if(!(isset($args[1]))) {
-                $sender->sendMessage($this->plugin->prefix . "§cYou must specify a player");
+                $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify a player");
               } else {
                 $target = $this->plugin->getServer()->getPlayer($args[1]);
                 if($target !== null) {
                   
                   $this->removeParticles($target);
                   
-                  $name = $target->getName();
+                  $name = strtolower($target->getName());
                   $sender->sendMessage($this->plugin->prefix . "§r§aSuccessfully reset particles for §2" . $name . "§a!");
                 } else {
-                  $sender->sendMessage($this->plugin->prefix . "§cThis player is offline");
+                  $sender->sendMessage($this->plugin->prefix . "§r§cThis player is offline");
                 }
               }
             break;
