@@ -156,7 +156,7 @@ class ParticleTask extends PluginTask {
         break;
         case "wings":
           $map = [];
-          $handle = fopen($this->plugin->getDataFolder() . "wings.map");
+          $handle = fopen($this->plugin->getDataFolder() . "wings.map", "a+");
           $lines = explode("\n", rtrim(stream_get_contents($handle)));
           fclose($handle);
           
