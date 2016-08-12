@@ -35,6 +35,7 @@ class ParticleCommand extends PluginBase {
       "flame",
       "heart",
       "ink",
+      "item",
       "itembreak",
       "lavadrip",
       "lava",
@@ -43,7 +44,6 @@ class ParticleCommand extends PluginBase {
       "smoke",
       "splash",
       "spore",
-      "terrain",
       "waterdrip",
       "water",
       "enchtable",
@@ -53,6 +53,7 @@ class ParticleCommand extends PluginBase {
       "rainsplash".
       "snowball".
       "slime".
+      "block",
       "destroyblock"
     );
   
@@ -104,7 +105,7 @@ class ParticleCommand extends PluginBase {
                       }
                     break;
                     case "block":
-                    case "blockbreak":
+                    case "destroyblock":
                       if(!isset($args[3])) {
                         $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
                       } else {
