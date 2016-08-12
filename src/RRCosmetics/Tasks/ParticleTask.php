@@ -145,7 +145,7 @@ class ParticleTask extends PluginTask {
           $level->addParticle(new angryvillager($pos));
         break;
         case "rainsplash":
-          $level->addParticle(new ($pos));
+          $level->addParticle(new rainsplash($pos));
         break;
         /*TO DO
         case "itembreak":
