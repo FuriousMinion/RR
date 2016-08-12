@@ -11,6 +11,7 @@ use pocketmine\Player;
 use pocketmine\utils\Config;
 
 use pocketmine\math\Vector3;
+use pocketmine\math\Vector2;
 
 use pocketmine\level\Level;
 use pocketmine\level\Position;
