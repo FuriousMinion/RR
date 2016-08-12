@@ -3,6 +3,7 @@
 namespace RRCosmetics;
 
 use pocketmine\plugin\PluginBase;
+use pocketmine\scheduler\PluginTask;
 
 use pocketmine\Server;
 use pocketmine\Player;
@@ -34,6 +35,6 @@ class Main extends PluginBase {
   }
   
   public function regTasks() {
-    $this->getServer()->getPluginManager()->scheduleRepeatingTask(new ParticleTask($this), 10);
+    $this->getServer()->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), 10);
   }
 }
