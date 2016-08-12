@@ -21,22 +21,17 @@ class ParticleCommand extends PluginBase {
   public $particles_list = array(
       "bubble",
       "crit",
-      "critical",
       "dust",
-      "ench",
       "enchant",
       "inenchant",
-      "instantenchant",
       "explode",
       "largeexplode",
       "hugeexplode",
-      "enflame",
-      "entityflame",
+      "entflame",
       "flame",
       "heart",
       "ink",
       "item",
-      "itembreak",
       "lavadrip",
       "lava",
       "portal",
@@ -47,14 +42,12 @@ class ParticleCommand extends PluginBase {
       "waterdrip",
       "water",
       "enchtable",
-      "enchanttable",
       "happyvillager",
       "angryvillager",
       "rainsplash",
       "snowball",
       "slime",
-      "block",
-      "destroyblock"
+      "block"
     );
   
   private $plugin;
@@ -95,7 +88,6 @@ class ParticleCommand extends PluginBase {
                   }
                   switch($args[2]) {
                     case "item":
-                    case "itembreak":
                       if(!isset($args[3])) {
                         $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
                       } else {
@@ -105,7 +97,6 @@ class ParticleCommand extends PluginBase {
                       }
                     break;
                     case "block":
-                    case "destroyblock":
                       if(!isset($args[3])) {
                         $sender->sendMessage($this->plugin->prefix . "§r§cYou must specify ID");
                       } else {
